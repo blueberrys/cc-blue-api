@@ -4,7 +4,7 @@ http://www.computercraft.info/forums2/index.php?/topic/17387-gitget-lightweight-
 ]]
 local gg_id = "6aMMzdwd"
 local gg_path = "gitget"
-function git_install(username, repo, branch, path)
+function install(username, repo, branch, path)
 	if not fs.exists(gg_path) then
 		shell.run("pastebin get ", gg_id, gg_path)
 		print("Credits to apemanzilla")

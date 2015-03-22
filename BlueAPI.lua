@@ -10,11 +10,10 @@ function load(module)
 	return os.loadAPI(root .. "/" .. module)
 end
 
-load("GitInstaller")
--- b_gi.git_install()
+load("b_git")
+-- b_git.install()
 
-b_io = load("IO")
-
-pagedPrint("OK!")
+load("b_io")
+b_io.pagedPrint("OK!")
 
 
