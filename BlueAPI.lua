@@ -7,6 +7,8 @@ March 22, 2015
 local root = shell.resolve("blue-api")
 
 function load(module)
+	print("LOADING:")
+	print(root .. "/" .. module)
 	return os.loadAPI(root .. "/" .. module)
 end
 
