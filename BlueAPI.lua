@@ -4,7 +4,7 @@ Version 0.1
 March 22, 2015
 ]]
 
-local root = string.match(shell.getRunningProgram(), "(.-)([^//]-([^%.]+))$")
+local root = "blue-api/"
 
 function load(module, reset)
 	if _G[module] then
@@ -17,17 +17,19 @@ function load(module, reset)
 
 	local path = root .. module
 	if not fs.exists(path) then
-		path = root .. module .. ".lua"
-		if not fs.exists(path) then
+		local path2 = root .. module .. ".lua"
+		if not fs.exists(path2) then
 			return false
 		end
+		-- remove .lua ext
+		fs.move(path2, path)
 	end
 
 	return os.loadAPI(path)
 end
 
-load("b_git")
-b_git.install()
+-- load("b_git")
+-- b_git.install()
 
-load("b_io")
-b_io.pagedPrint("OK!")
+-- load("b_io")
+-- b_io.pagedPrint("OK!")
