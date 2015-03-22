@@ -10,10 +10,11 @@ function load(module)
 	return os.loadAPI(root .. "/" .. module)
 end
 
-load("b_git")
+-- load("b_git")
 -- b_git.install()
 
 load("b_io")
+print("ok? ", b_io)
 b_io.pagedPrint("OK!")
 
 
