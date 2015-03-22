@@ -4,12 +4,11 @@ Version 0.1
 March 22, 2015
 ]]
 
-local root = shell.resolve("blue-api")
+local root = string.match(shell.getRunningProgram(), "(.-)([^//]-([^%.]+))$")
 
 function load(module)
-	print("LOADING:")
-	print(root .. "/" .. module)
-	return os.loadAPI(root .. "/" .. module)
+	_G[module] = nil
+	return os.loadAPI(root .. module)
 end
 
 -- load("b_git")
@@ -18,5 +17,4 @@ end
 load("b_io")
 print("ok? ", b_io)
 b_io.pagedPrint("OK!")
-
 
