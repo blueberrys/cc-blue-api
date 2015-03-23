@@ -71,9 +71,10 @@ function install(username, repo, branch, path, printFn, exclude)
 
 	printFn("Downloading files from GitHub")
 
-	printFn("Getting file list")
+	printFn("Fetching file list")
+	-- https://api.github.com/repos/blueberrys/cc-blue-api/git/trees/master?recursive=1
 	local data = json.decode(http.get("https://api.github.com/repos/"
-		.. username .. "/" .. repo .. "/" .. "/git/trees/" .. branch .. "?recursive=1"))
+		.. username .. "/" .. repo .. "/git/trees/" .. branch .. "?recursive=1"))
 	if data.message == "Not Found" then
 		printFn("Invalid repository")
 		return false
