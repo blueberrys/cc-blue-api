@@ -118,7 +118,7 @@ function install(username, repo, branch, path, printFn, exclude)
 		local event, url, data = os.pullEvent()
 		if (event == "http_success" or event == "http_failure") and pendingUrls[url] then
 
-			local file = url:sub(1, baseUrl:len())
+			local file = url:sub(baseUrl:len())
 			if event == "http_success" then
 				printFn("Installing " .. file)
 				b_files.write(file, data.readAll())
