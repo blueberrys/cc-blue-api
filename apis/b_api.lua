@@ -17,6 +17,10 @@ If reset is true, api will be forced to re-load
 Loads all api's needed for blue-api
 You can safely use setRoot after calling this
 
+- depend(apis)
+Loads all given apis
+apis should be an object with api names as string elements
+
 ]]
 
 local root = "/"
@@ -45,4 +49,10 @@ function loadBlue()
 	end
 end
 
-
+function depend(apis)
+	for _, d in pairs(apis) do
+		if not _G[d] then
+			load(d)
+		end
+	end
+end

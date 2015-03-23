@@ -1,6 +1,5 @@
 --[[
 BlueAPI
-Version 0.1
 March 22, 2015
 ]]
 
@@ -32,9 +31,9 @@ b_api.setRoot(apis)
 
 --
 
-b_api.load("b_git")
-b_git.install("blueberrys", "cc-blue-api", "master", "blue-api", print, {"README.md", "LICENSE", "version"})
-
+-- b_api.load("b_git")
+-- b_git.install("blueberrys", "cc-blue-api", "master", "blue-api", print, {"README.md", "version"})
+--
 -- b_api.load("b_io")
 -- b_io.pagedPrint("OK!")
 

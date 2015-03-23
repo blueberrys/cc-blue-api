@@ -23,23 +23,12 @@ eg: install("blueberrys", "cc-blue-api", "master", "blue-api", print, {"README.m
 
 ]]
 
--- TODO: Should be in class?
--- other api's should extend from class
-local function depend(apis)
-	if not b_api then
-		print("Could not load dependencies")
-		print("Run \"blu\" for automatic dependency management")
-		return false
-	end
-
-	for _, d in pairs(apis) do
-		if not _G[d] then
-			b_api.load(d)
-		end
-	end
+if not b_api then
+	print("Could not load dependencies")
+	print("Run \"blu\" for automatic dependency management")
+	return
 end
-
-depend({"b_files"})
+b_api.depend({"b_files"})
 
 --
 
@@ -118,12 +107,13 @@ function install(username, repo, branch, path, printFn, exclude)
 		local event, url, data = os.pullEvent()
 		if (event == "http_success" or event == "http_failure") and pendingUrls[url] then
 
-			local file = url:sub(baseUrl:len()+1)
+			local fileName = url:sub(baseUrl:len()+1)
+			local filePath = fs.combine(path, fileName)
 			if event == "http_success" then
-				printFn("Installing " .. file)
-				b_files.write(fs.combine(path, file), data.readAll())
+				printFn("Installing " .. filePath)
+				b_files.write(filePath, data.readAll())
 			else
-				printFn("Couldn't fetch " .. file)
+				printFn("Couldn't fetch " .. fileName)
 			end
 
 			pendingUrls[url] = nil
