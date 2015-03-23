@@ -9,27 +9,35 @@ b_files
 Usage
 
 - checkUpdate(url, path)
+Returns true if update is available
+
 ]]
 
-local function depend(apis)
-	if not b_api then
-		print("Could not load dependencies")
-		print("Run \"blu\" for automatic dependency management")
-		return false
-	end
-
-	for _, d in pairs(apis) do
-		if not _G[d] then
-			b_api.load(d)
-		end
-	end
+if not b_api then
+	print("Could not load dependencies")
+	print("Run \"blu\" for automatic dependency management")
+	return
 end
-
-depend({"b_files"})
+b_api.depend({"b_files"})
 
 --
 
 function checkUpdate(url, path)
-	local new = http.get(url).readAll()
+	local resp = http.get(url)
+	if not resp then
+		print("Couldn't fetch " .. url)
+		return false
+	end
+	
+	local new = resp.readAll()
 	local current = 0
 end
+
+
+
+
+
+
+
+
+
