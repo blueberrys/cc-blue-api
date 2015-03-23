@@ -36,8 +36,8 @@ end
 function trimLuaExtFile(file)
 	print(file)
 	if (file:sub(-4)==".lua") then
-		print("YE ", file:sub(file:len()-4))
-		fs.move(file, file:sub(file:len()-4))
+		print("YE ", file:sub(1, file:len()-4))
+		fs.move(file, file:sub(1, file:len()-4))
 	end
 end
 
@@ -48,7 +48,7 @@ function trimLuaExtDir(dir, recurse)
 		if not fs.isDir(file) then
 			trimLuaExtFile(file)
 		elseif recurse then
-			trimLuaExt(file, true)
+			trimLuaExtDir(file, true)
 		end
 	end
 end
