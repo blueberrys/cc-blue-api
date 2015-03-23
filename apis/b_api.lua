@@ -7,10 +7,15 @@ Usage
 
 - setRoot(root)
 Sets the root directory for loading api's
+Use cautiously. Will affect all scripts using the api
 
 - load(module, reset)
 Loads the module from the current root directory
 If reset is true, api will be forced to re-load
+
+- loadBlue()
+Loads all api's needed for blue-api
+You can safely use setRoot after calling this
 
 ]]
 
@@ -33,3 +38,11 @@ function load(module, reset)
 
 	return os.loadAPI(path)
 end
+
+function loadBlue()
+	for _, api in pairs(fs.list(root)) do
+		load(api, true)
+	end
+end
+
+

@@ -46,7 +46,6 @@ function trimLuaExtDir(dir, recurse)
 		if not fs.isDir(file) then
 			trimLuaExtFile(file)
 		elseif recurse then
-			print("Going in ", fileName)
 			trimLuaExtDir(file, recurse)
 		end
 	end
