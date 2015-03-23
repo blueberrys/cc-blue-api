@@ -1,15 +1,20 @@
 --[[
 Updater
 
+
 Dependencies:
+b_io
+b_http
 b_files
 ]]
 
 --[[
 Usage
 
+
 - checkUpdate(url, path)
 Returns true if update is available
+
 
 ]]
 
@@ -18,26 +23,22 @@ if not b_api then
 	print("Run \"blu\" for automatic dependency management")
 	return
 end
-b_api.depend({"b_files"})
+b_api.depend({"b_io", "b_http", "b_files"})
 
 --
 
 function checkUpdate(url, path)
-	local resp = http.get(url)
-	if not resp then
-		print("Couldn't fetch " .. url)
+	local new = b_http.getData(url)
+	if not new then
+		b_io.prn("Couldn't fetch " .. url)
 		return false
 	end
-	
-	local new = resp.readAll()
-	local current = 0
+
+	local current = b_files.read(path)
+	if not current then
+		b_io.prn("No local version file found")
+		return true
+	end
+
+	return (current < new)
 end
-
-
-
-
-
-
-
-
-

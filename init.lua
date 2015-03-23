@@ -38,6 +38,10 @@ shell.setAlias("blu", fs.combine(root, "init"))
 load(fs.combine(apis, "b_api"), true)
 b_api.setRoot(apis)
 
+b_api.load("b_update")
+b_update.checkUpdate()
+
+
 --
 
 -- b_api.load("b_git")
