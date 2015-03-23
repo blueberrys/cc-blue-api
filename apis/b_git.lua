@@ -118,10 +118,10 @@ function install(username, repo, branch, path, printFn, exclude)
 		local event, url, data = os.pullEvent()
 		if (event == "http_success" or event == "http_failure") and pendingUrls[url] then
 
-			local file = url:sub(baseUrl:len())
+			local file = url:sub(baseUrl:len()+1)
 			if event == "http_success" then
 				printFn("Installing " .. file)
-				b_files.write(file, data.readAll())
+				b_files.write(fs.combine(path, file), data.readAll())
 			else
 				printFn("Couldn't fetch " .. file)
 			end
