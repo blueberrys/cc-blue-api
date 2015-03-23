@@ -28,7 +28,7 @@ if not b_api then
 	print("Run \"blu\" for automatic dependency management")
 	return
 end
-b_api.depend("b_files"})
+b_api.depend({"b_files"})
 
 --
 
