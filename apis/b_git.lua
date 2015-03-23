@@ -32,6 +32,8 @@ b_api.depend({"b_files"})
 
 --
 
+local maxAttempt = 3
+
 local function dl(file, url)
 	local resp = http.get(url)
 	if resp then
@@ -116,21 +118,34 @@ function install(username, repo, branch, path, printFn, exclude)
 
 	printFn("Installing files")
 	local pending = #blobNodes
+	local attempts = {}
 	while (pending > 0) do
 		local event, url, data = os.pullEvent()
 		if (event == "http_success" or event == "http_failure") and pendingUrls[url] then
+			pendingUrls[url] = nil
+			pending = pending - 1
 
 			local fileName = url:sub(baseUrl:len()+1)
 			local filePath = fs.combine(path, fileName)
+			
 			if event == "http_success" then
 				printFn("Installing " .. filePath)
 				b_files.write(filePath, data.readAll())
 			else
 				printFn("Couldn't fetch " .. fileName)
-			end
-
-			pendingUrls[url] = nil
-			pending = pending-1
+				
+				local atmp = attempts[fileName] or 0
+				atmp = atmp + 1
+				attempts[fileName] = atmp
+				
+				if atmp < maxAttempt then
+					printFn("Retrying. Attempt: " .. atmp)
+					pendingUrls[url] = true
+					pending = pending + 1
+					http.request(url)
+				end -- attempt
+			end -- success/fail
+			
 		end -- if event
 	end -- while pending
 
