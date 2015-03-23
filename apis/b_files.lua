@@ -42,11 +42,9 @@ function trimLuaExtFile(file)
 end
 
 function trimLuaExtDir(dir, recurse)
-	local list = fs.list(dir)
-
-	for _, file in pairs(list) do
+	for _, file in pairs(fs.list(dir)) do
 		if not fs.isDir(file) then
-			trimLuaExtFile(file)
+			trimLuaExtFile(fs.combine(dir, file))
 		elseif recurse then
 			trimLuaExtDir(file, true)
 		end

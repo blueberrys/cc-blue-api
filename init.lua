@@ -18,6 +18,8 @@ end
 loadNoLua(fs.combine(apis, "b_files"))
 b_files.trimLuaExtDir(root, true)
 
+shell.setAlias("blu", fs.combine(root, "init"))
+
 --
 
 -- os.loadAPI("b_api")
