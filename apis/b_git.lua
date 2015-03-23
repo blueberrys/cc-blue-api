@@ -23,14 +23,14 @@ eg: install("blueberrys", "cc-blue-api", "master", print, {"README.md"})
 
 ]]
 
-local function depend(...)
+local function depend(apis)
 	if not b_api then
 		print("Could not load dependencies")
 		print("Run \"blu\" for automatic dependency management")
 		return false
 	end
 
-	for _, d in pairs(arg) do
+	for _, d in pairs(apis) do
 		if not _G[d] then
 			b_api.load(d)
 		end
@@ -40,10 +40,6 @@ end
 depend({"b_files"})
 
 --
-
-local function dl_sync(url, file)
-	b_files.write(file, http.get(url).readAll())
-end
 
 function install(username, repo, branch, path, printFn, exclude)
 	branch = branch or "master"
@@ -69,7 +65,7 @@ function install(username, repo, branch, path, printFn, exclude)
 
 	if not json then
 		printFn("Downloading JSON api (by ElvishJerricco)")
-		dl_sync("json", "http://pastebin.com/raw.php?i=4nRg9CHU")
+		b_files.write("json", http.get("http://pastebin.com/raw.php?i=4nRg9CHU").readAll())
 		os.loadAPI("json")
 	end
 
@@ -126,7 +122,7 @@ function install(username, repo, branch, path, printFn, exclude)
 			else
 				printFn("Couldn't fetch " .. file)
 			end
-			
+
 			pendingUrls[url] = nil
 			pending = pending-1
 		end -- if event
