@@ -34,7 +34,9 @@ function read(path)
 end
 
 function trimLuaExtFile(file)
+	print(file)
 	if (file:sub(-4)==".lua") then
+		print("YE ", file:sub(file:len()-4))
 		fs.move(file, file:sub(file:len()-4))
 	end
 end

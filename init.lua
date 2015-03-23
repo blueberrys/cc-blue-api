@@ -4,7 +4,8 @@ Version 0.1
 March 22, 2015
 ]]
 
-local root = "blue-api/apis"
+local root = "blue-api"
+local apis = fs.combine(root, "apis")
 
 local function loadNoLua(path)
 	local lua_path = path .. ".lua"
@@ -14,13 +15,13 @@ local function loadNoLua(path)
 	return os.loadAPI(path)
 end
 
-loadNoLua(fs.combine(root, "b_files"))
+loadNoLua(fs.combine(apis, "b_files"))
 b_files.trimLuaExtDir(root, true)
 
 --
 
 -- os.loadAPI("b_api")
--- b_api.setRoot(root)
+-- b_api.setRoot(apis)
 --
 -- b_api.load("b_git")
 -- b_git.install()
