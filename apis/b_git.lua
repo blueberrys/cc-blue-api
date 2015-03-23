@@ -32,6 +32,13 @@ b_api.depend({"b_files"})
 
 --
 
+local function dl(file, url)
+	local resp = http.get(url)
+	if resp then
+		b_files.write("json", resp.readAll())
+	end
+end
+
 function install(username, repo, branch, path, printFn, exclude)
 	branch = branch or "master"
 	path = path or ""
@@ -56,7 +63,7 @@ function install(username, repo, branch, path, printFn, exclude)
 
 	if not json then
 		printFn("Downloading JSON api (by ElvishJerricco)")
-		b_files.write("json", http.get("http://pastebin.com/raw.php?i=4nRg9CHU").readAll())
+		dl("json", "http://pastebin.com/raw.php?i=4nRg9CHU")
 		os.loadAPI("json")
 	end
 
@@ -64,8 +71,14 @@ function install(username, repo, branch, path, printFn, exclude)
 
 	printFn("Fetching file list")
 	-- https://api.github.com/repos/blueberrys/cc-blue-api/git/trees/master?recursive=1
+
 	local fileList = "https://api.github.com/repos/" .. username .. "/" .. repo .. "/git/trees/" .. branch .. "?recursive=1"
-	local data = json.decode(http.get(fileList).readAll())
+	local resp = http.get(fileList)
+	if not resp then
+		printFn("Invalid repository")
+		return false
+	end
+	local data = json.decode(resp.readAll())
 	if data.message == "Not Found" then
 		printFn("Invalid repository")
 		return false
