@@ -40,14 +40,13 @@ function trimLuaExtFile(file)
 end
 
 function trimLuaExtDir(dir, recurse)
-	for _, file in pairs(fs.list(dir)) do
-		print("re ", recurse)
-		print("dir ", fs.isDir(file))
-
+	for _, fileName in pairs(fs.list(dir)) do
+		local file = fs.combine(dir, fileName)
+		
 		if not fs.isDir(file) then
-			trimLuaExtFile(fs.combine(dir, file))
+			trimLuaExtFile(file)
 		elseif recurse then
-			print("Going in ", file)
+			print("Going in ", fileName)
 			trimLuaExtDir(file, recurse)
 		end
 	end
