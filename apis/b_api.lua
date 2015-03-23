@@ -39,6 +39,10 @@ function load(module, reset)
 	end
 
 	local path = fs.combine(root, module)
+	if not fs.exists(path) then
+		print(path .. " not found")
+		return false
+	end
 
 	return os.loadAPI(path)
 end

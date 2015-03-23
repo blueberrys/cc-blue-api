@@ -1,6 +1,8 @@
 --[[
 BlueAPI
 March 22, 2015
+
+http://pastebin.com/yy7gqfBQ
 ]]
 
 local root = "blue-api"
@@ -29,12 +31,18 @@ end
 
 print("Initializing BlueAPI at " .. root)
 
+print("OK1")
 loadNoLua(fs.combine(apis, "b_files"), true)
+print("OK2")
 b_files.trimLuaExtDir(root, true)
+print("OK3")
 shell.setAlias("blu", fs.combine(root, "init"))
+print("OK4")
 
 load(fs.combine(apis, "b_api"), true)
+print("OK5")
 b_api.setRoot(apis)
+print("OK6")
 
 --
 
