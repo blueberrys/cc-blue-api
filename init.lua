@@ -16,11 +16,18 @@ end
 local function loadNoLua(path, reset)
 	local lua_path = path .. ".lua"
 	if fs.exists(lua_path) then
+		-- Delete old one
+		if fs.exists(path) then
+			fs.delete(path)
+		end
+		-- Use new one
 		fs.move(lua_path, path)
 	end
 
 	return load(path, reset)
 end
+
+print("Initializing BlueAPI at " .. root)
 
 loadNoLua(fs.combine(apis, "b_files"), true)
 b_files.trimLuaExtDir(root, true)
@@ -36,7 +43,3 @@ b_api.setRoot(apis)
 --
 -- b_api.load("b_io")
 -- b_io.pagedPrint("OK!")
-
-
-
-
