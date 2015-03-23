@@ -4,7 +4,7 @@ Version 0.1
 March 22, 2015
 ]]
 
-local root = "blue-api"
+local root = "blue-api/apis"
 
 local function loadNoLua(path)
 	local lua_path = path .. ".lua"
@@ -15,7 +15,7 @@ local function loadNoLua(path)
 end
 
 loadNoLua(fs.combine(root, "b_files"))
-b_files.trimLuaExt(root, true)
+b_files.trimLuaExtDir(root, true)
 
 --
 
