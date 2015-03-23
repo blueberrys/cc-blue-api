@@ -35,14 +35,18 @@ end
 
 function trimLuaExtFile(file)
 	if (file:sub(-4)==".lua") then
-		fs.move(file, file:sub(1, file:len()-4))
+		local old_file = file:sub(1, file:len()-4)
+		if fs.exists(old_file) then
+			fs.delete(old_file)
+		end
+		fs.move(file, old_file)
 	end
 end
 
 function trimLuaExtDir(dir, recurse)
 	for _, fileName in pairs(fs.list(dir)) do
 		local file = fs.combine(dir, fileName)
-		
+
 		if not fs.isDir(file) then
 			trimLuaExtFile(file)
 		elseif recurse then
