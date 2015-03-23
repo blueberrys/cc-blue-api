@@ -23,6 +23,8 @@ eg: install("blueberrys", "cc-blue-api", "master", print, {"README.md"})
 
 ]]
 
+-- TODO: Should be in class?
+-- other api's should extend from class
 local function depend(apis)
 	if not b_api then
 		print("Could not load dependencies")
@@ -73,8 +75,8 @@ function install(username, repo, branch, path, printFn, exclude)
 
 	printFn("Fetching file list")
 	-- https://api.github.com/repos/blueberrys/cc-blue-api/git/trees/master?recursive=1
-	local data = json.decode(http.get("https://api.github.com/repos/"
-		.. username .. "/" .. repo .. "/git/trees/" .. branch .. "?recursive=1"))
+	local fileList = "https://api.github.com/repos/" .. username .. "/" .. repo .. "/git/trees/" .. branch .. "?recursive=1"
+	local data = json.decode(http.get(fileList))
 	if data.message == "Not Found" then
 		printFn("Invalid repository")
 		return false
