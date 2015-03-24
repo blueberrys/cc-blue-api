@@ -23,8 +23,7 @@ if not b_api then
 	print("Run \"blu\" for automatic dependency management")
 	return
 end
-local ok = b_api.depend({"b_io", "b_http", "b_files"})
-print("DEPENDING ", ok)
+b_api.depend({"b_io", "b_http", "b_files"})
 
 --
 

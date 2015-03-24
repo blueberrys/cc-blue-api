@@ -38,8 +38,7 @@ shell.setAlias("blu", fs.combine(root, "init"))
 load(fs.combine(apis, "b_api"), true)
 b_api.setRoot(apis)
 
-local ok = b_api.load("b_update")
-print("b_update ", ok)
+b_api.load("b_update", true)
 b_update.checkUpdate()
 
 

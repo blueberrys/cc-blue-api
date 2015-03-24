@@ -55,7 +55,6 @@ end
 
 function depend(apis)
 	for _, a in pairs(apis) do
-		print("Loading " .. a)
 		if not _G[a] then
 			load(a)
 		end
