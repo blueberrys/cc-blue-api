@@ -34,24 +34,22 @@ b_api.depend({"b_files", "b_git", "b_http", "b_io"})
 
 local function defaultCompareFn(new, current)
 	local function num(str)
-		return tonumber(str:gsub(".", ""))
+		local num = str
+		if type(num) == "string" then
+			num = tonumber(str:gsub("%.", ""))
+		end
+		return num
 	end
-	
-	print(new, " ", current)
-	io.read()
-	
+
 	new = num(new)
 	current = num(current)
 
-	print(new, " ", current)
-	io.read()
-	
 	return (new > current)
 end
 
 function checkUpdate(url, path, compareFn)
 	compareFn = compareFn or defaultCompareFn
-	
+
 	local new = b_http.getData(url)
 	if not new then
 		b_io.prnt("Couldn't fetch " .. url)
@@ -70,7 +68,7 @@ end
 function gitUpdate(username, repo, branch, path, exclFiles)
 	local updateUrl = "https://raw.githubusercontent.com/" .. username .. "/" .. repo .. "/" .. branch .. "/version"
 	local updatePath = fs.combine(path, "version")
-	
+
 	b_io.prnt("Checking for updates")
 	if checkUpdate(updateUrl, updatePath) then
 		b_io.prnt("Downloading latest version")
