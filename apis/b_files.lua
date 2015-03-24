@@ -70,7 +70,7 @@ function removeData(path, data)
 		if content then
 			local i, j = content:find(data, 1, true)
 			if i and j then
-				local newContent = content:sub(1, i-1) .. content:sub(j)
+				local newContent = content:sub(1, i-1) .. content:sub(j+1)
 				write(path, newContent)
 			end -- if i j
 		end -- if content
