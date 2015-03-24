@@ -10,10 +10,11 @@ b_files
 --[[
 Usage
 
-- checkUpdate(url, path)
+- checkUpdate(url, path, compareFn)
 Returns: should_update, new, current
-should_update is true if new is greater than current, or current unavailable
-current is not returned if unavailable
+should_update is compareFn(new, current), or false if http fail, or true if local fail
+new and/or current are not returned if unavailable
+If compareFn is not provided, the default is used (sufficient for numbered versions)
 
 - gitUpdate(username, repo, branch, path, exclFiles)
 Updates a complete repository from GitHub
@@ -31,7 +32,19 @@ b_api.depend({"b_files", "b_git", "b_http", "b_io"})
 
 --
 
-function checkUpdate(url, path)
+local function defaultCompareFn(new, current)
+	local function num(str)
+		return tonumber(str:gsub(".", ""))
+	end
+	new = num(new)
+	current = num(current)
+	
+	return (new > current)
+end
+
+function checkUpdate(url, path, compareFn)
+	compareFn = compareFn or defaultCompareFn
+	
 	local new = b_http.getData(url)
 	if not new then
 		b_io.prnt("Couldn't fetch " .. url)
@@ -44,7 +57,7 @@ function checkUpdate(url, path)
 		return true, new
 	end
 
-	return (current < new), new, current
+	return compareFn(new, current), new, current
 end
 
 function gitUpdate(username, repo, branch, path, exclFiles)
