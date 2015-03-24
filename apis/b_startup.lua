@@ -12,8 +12,15 @@ Usage
 - addStartup(data)
 Adds data to startup file, if it doesn't already contain the data
 
+- removeStartup(data)
+Removes specific data from startup file
+
 - addAlias(alias, path)
 Adds an alias to startup
+Does not affect currently running instance (boot required)
+
+- removeAlias(alias, path)
+Removes alias from startup
 Does not affect currently running instance (boot required)
 
 ]]
@@ -28,16 +35,21 @@ b_api.depend({"b_files"})
 --
 
 function addStartup(data)
-	local content = b_files.read("startup")
-	if (content and content:find(data, 1, true)) then
-		return false
+	if not b_files.hasData("startup", data) then
+		b_files.createAppend("startup", data)
 	end
-	
-	b_files.createAppend("startup", data)
-	return true
+end
+
+function removeStartup(data)
+	b_files.removeData("startup", data)
 end
 
 function addAlias(alias, path)
 	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
 	addStartup("\n\n" ..  cmd)
+end
+
+function removeAlias(alias, path)
+	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
+	removeStartup(cmd)
 end

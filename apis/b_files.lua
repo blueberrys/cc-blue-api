@@ -11,8 +11,14 @@ Writes data to file at path
 - read(path)
 Reads and returns data from file at path
 
+- hasData(path, data)
+Returns whether the file at path contains specific data
+
 - createAppend(path, data)
 Appends data to file, creates new if needed
+
+- removeData(path, data)
+Removes specific data from file
 
 - trimLuaExtFile(file)
 Removes .lua extension of a file
@@ -39,6 +45,15 @@ function read(path)
 	return data
 end
 
+function hasData(path, data)
+	local content = read(path)
+	if (content and content:find(data, 1, true)) then
+		return true
+	end
+	
+	return false
+end
+
 function createAppend(path, data)
 	if fs.exists(path) then
 		local f = fs.open(path, "a")
@@ -46,6 +61,17 @@ function createAppend(path, data)
 		f.close()
 	else
 		write(path, data)
+	end
+end
+
+function removeData(path, data)
+	if fs.exists(path) then
+		local content = read(path)
+		local i, j = content and content:find(data, 1, true)
+		if i then
+			local newContent = content:sub(1, i-1) .. content:sub(j)
+			write(path, newContent)
+		end
 	end
 end
 
