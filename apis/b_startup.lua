@@ -35,6 +35,6 @@ function addStartup(data)
 end
 
 function addAlias(alias, path)
-	local cmd = "shell.setAlias(" .. alias .. "," .. path .. ")"
+	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
 	addStartup( cmd)
 end

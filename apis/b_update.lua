@@ -72,5 +72,7 @@ function gitUpdate(username, repo, branch, path, exclFiles)
 	if checkUpdate(updateUrl, updatePath) then
 		b_io.prnt("Downloading latest version")
 		b_git.install(username, repo, branch, path, exclFiles)
+	else
+		b_io.prnt("No updates found")
 	end
 end
