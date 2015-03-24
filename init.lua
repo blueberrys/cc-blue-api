@@ -52,20 +52,5 @@ shell.setAlias("blu", fs.combine(root, "init"))
 load(fs.combine(apis, "b_api"), force_reset)
 b_api.setRoot(apis)
 
---
-
 b_api.load("b_update", force_reset)
-print("Checking for updates")
-local should_update, new, current = b_update.checkUpdate(versionUrl, versionPath)
-if should_update then
-	print("Update available!")
-	print("Latest ver: ".. new)
-	if current then print("Current ver: ".. current) end
-	-- TODO: Ask to update
-
-	b_api.load("b_git")
-	b_git.install(user, repo, "master", root, print, exclFiles)
-	shell.run(fs.combine(root, "init.lua"))
-elseif current then
-	print("BlueAPI v" .. current)
-end
+b_update.gitUpdate(user, repo, "master", root, exclFiles)

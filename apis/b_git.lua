@@ -8,17 +8,17 @@ http://pastebin.com/raw.php?i=6aMMzdwd
 Dependencies:
 b_files
 b_http
+b_io
 ]]
 
 --[[
 Usage
 
-- install(username, repo, branch, path, printFn, exclude)
+- install(username, repo, branch, path, exclude)
 Username	- GitHub username
 repo		- GitHub repo name
 branch		- Github branch (default "master")
 path		- Local install path (default "/")
-printFn		- Status messages are sent to this function
 exclude		- Table containing the relative path of folders/files to exclude
 eg: install("blueberrys", "cc-blue-api", "master", "blue-api", print, {"README.md"})
 
@@ -29,17 +29,16 @@ if not b_api then
 	print("Run \"blu\" for automatic dependency management")
 	return
 end
-b_api.depend({"b_files", "b_http"})
+b_api.depend({"b_files", "b_http", "b_io"})
 
 --
 
 local maxAttempt = 3
 
-function install(username, repo, branch, path, printFn, exclude)
+function install(username, repo, branch, path, exclude)
 	branch = branch or "master"
 	path = path or ""
-	printFn = printFn or (function()end)
-
+	
 	local function should_exclude(node)
 		for _, ePath in pairs(exclude) do
 			if node.type == "tree" then
@@ -58,30 +57,28 @@ function install(username, repo, branch, path, printFn, exclude)
 	end
 
 	if not json then
-		printFn("Downloading JSON api (by ElvishJerricco)")
+		b_io.prnt("Downloading JSON api (by ElvishJerricco)")
 		b_http.getDownload("http://pastebin.com/raw.php?i=4nRg9CHU", "json")
 		os.loadAPI("json")
 	end
 
-	printFn("Downloading files from GitHub")
-
-	printFn("Fetching file list")
+	b_io.prnt("Downloading files from GitHub")
+	
+	b_io.prnt("Fetching file list")
 	-- https://api.github.com/repos/blueberrys/cc-blue-api/git/trees/master?recursive=1
-
 	local fileList = "https://api.github.com/repos/" .. username .. "/" .. repo .. "/git/trees/" .. branch .. "?recursive=1"
-
 	local data = b_http.getData(fileList)
 	if not data then
-		printFn("Invalid repository")
+		b_io.prnt("Invalid repository")
 		return false
 	end
 	local jsonData = json.decode(data)
 	if jsonData.message == "Not Found" then
-		printFn("Invalid repository")
+		b_io.prnt("Invalid repository")
 		return false
 	end
 
-	printFn("Gathering data")
+	b_io.prnt("Gathering data")
 	local treeNodes = {}
 	local blobNodes = {}
 	for _, node in pairs(jsonData.tree) do
@@ -94,24 +91,24 @@ function install(username, repo, branch, path, printFn, exclude)
 		end
 	end
 
-	printFn("Making directories")
+	b_io.prnt("Making directories")
 	for _, node in pairs(treeNodes) do
-		printFn("Creating " .. node.path)
+		b_io.prnt("Creating " .. node.path)
 		fs.makeDir(fs.combine(path, node.path))
 	end
 
-	printFn("Downloading files")
+	b_io.prnt("Downloading files")
 	local baseUrl = "https://raw.github.com/" .. username .. "/" .. repo .. "/" .. branch .. "/"
 	local pendingUrls = {}
 	for _, node in pairs(blobNodes) do
-		printFn("Downloading " .. node.path)
+		b_io.prnt("Downloading " .. node.path)
 
 		local url = baseUrl .. node.path
 		pendingUrls[url] = true
 		http.request(url)
 	end
 
-	printFn("Installing files")
+	b_io.prnt("Installing files")
 	local pending = #blobNodes
 	local attempts = {}
 	while (pending > 0) do
@@ -124,17 +121,17 @@ function install(username, repo, branch, path, printFn, exclude)
 			local filePath = fs.combine(path, fileName)
 
 			if event == "http_success" then
-				printFn("Installing " .. filePath)
+				b_io.prnt("Installing " .. filePath)
 				b_files.write(filePath, data.readAll())
 			else
-				printFn("Couldn't fetch " .. fileName)
+				b_io.prnt("Couldn't fetch " .. fileName)
 
 				local atmp = attempts[fileName] or 0
 				atmp = atmp + 1
 				attempts[fileName] = atmp
 
 				if atmp < maxAttempt then
-					printFn("Retrying. Attempt: " .. atmp)
+					b_io.prnt("Retrying. Attempt: " .. atmp)
 					pendingUrls[url] = true
 					pending = pending + 1
 					http.request(url)
@@ -144,5 +141,5 @@ function install(username, repo, branch, path, printFn, exclude)
 		end -- if event
 	end -- while pending
 
-	printFn("Download complete")
+	b_io.prnt("Download complete")
 end

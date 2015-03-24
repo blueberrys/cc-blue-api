@@ -5,7 +5,7 @@ Input/Output
 --[[
 Usage
 
-- prn(...)
+- prnt(...)
 Send variables to the current print_fn
 Defaults to print
 
@@ -24,14 +24,14 @@ seperated by spaces
 
 ]]
 
-local prn_fn = print
+local print_fn = print
 
-function prn(...)
-	prn_fn(...)
+function prnt(...)
+	print_fn(...)
 end
 
 function setPrintFn(fn)
-	prn_fn = fn
+	print_fn = fn
 end
 
 --
