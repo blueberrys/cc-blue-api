@@ -66,14 +66,6 @@ if should_update then
 	b_api.load("b_git")
 	b_git.install(user, repo, "master", root, print, exclFiles)
 	shell.run(fs.combine(root, "init.lua"))
-else
-	print("")
+elseif current then
+	print("BlueAPI v" .. current)
 end
-
---
-
--- b_api.load("b_git")
--- b_git.install("blueberrys", "cc-blue-api", "master", "blue-api", print, {"README.md", "version"})
---
--- b_api.load("b_io")
--- b_io.pagedPrint("OK!")

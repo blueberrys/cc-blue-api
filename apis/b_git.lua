@@ -7,6 +7,7 @@ http://pastebin.com/raw.php?i=6aMMzdwd
 
 Dependencies:
 b_files
+b_http
 ]]
 
 --[[
@@ -28,18 +29,11 @@ if not b_api then
 	print("Run \"blu\" for automatic dependency management")
 	return
 end
-b_api.depend({"b_files"})
+b_api.depend({"b_files", "b_http"})
 
 --
 
 local maxAttempt = 3
-
-local function dl(file, url)
-	local resp = http.get(url)
-	if resp then
-		b_files.write("json", resp.readAll())
-	end
-end
 
 function install(username, repo, branch, path, printFn, exclude)
 	branch = branch or "master"
@@ -65,7 +59,7 @@ function install(username, repo, branch, path, printFn, exclude)
 
 	if not json then
 		printFn("Downloading JSON api (by ElvishJerricco)")
-		dl("json", "http://pastebin.com/raw.php?i=4nRg9CHU")
+		b_http.getDownload("http://pastebin.com/raw.php?i=4nRg9CHU", "json")
 		os.loadAPI("json")
 	end
 
@@ -75,13 +69,14 @@ function install(username, repo, branch, path, printFn, exclude)
 	-- https://api.github.com/repos/blueberrys/cc-blue-api/git/trees/master?recursive=1
 
 	local fileList = "https://api.github.com/repos/" .. username .. "/" .. repo .. "/git/trees/" .. branch .. "?recursive=1"
-	local resp = http.get(fileList)
-	if not resp then
+
+	local data = b_http.getData(fileList)
+	if not data then
 		printFn("Invalid repository")
 		return false
 	end
-	local data = json.decode(resp.readAll())
-	if data.message == "Not Found" then
+	local jsonData = json.decode(data)
+	if jsonData.message == "Not Found" then
 		printFn("Invalid repository")
 		return false
 	end
@@ -89,7 +84,7 @@ function install(username, repo, branch, path, printFn, exclude)
 	printFn("Gathering data")
 	local treeNodes = {}
 	local blobNodes = {}
-	for _, node in pairs(data.tree) do
+	for _, node in pairs(jsonData.tree) do
 		if not should_exclude(node) then
 			if node.type == "tree" then
 				table.insert(treeNodes, node)
@@ -127,17 +122,17 @@ function install(username, repo, branch, path, printFn, exclude)
 
 			local fileName = url:sub(baseUrl:len()+1)
 			local filePath = fs.combine(path, fileName)
-			
+
 			if event == "http_success" then
 				printFn("Installing " .. filePath)
 				b_files.write(filePath, data.readAll())
 			else
 				printFn("Couldn't fetch " .. fileName)
-				
+
 				local atmp = attempts[fileName] or 0
 				atmp = atmp + 1
 				attempts[fileName] = atmp
-				
+
 				if atmp < maxAttempt then
 					printFn("Retrying. Attempt: " .. atmp)
 					pendingUrls[url] = true
@@ -145,7 +140,7 @@ function install(username, repo, branch, path, printFn, exclude)
 					http.request(url)
 				end -- attempt
 			end -- success/fail
-			
+
 		end -- if event
 	end -- while pending
 
