@@ -50,7 +50,7 @@ function hasData(path, data)
 	if (content and content:find(data, 1, true)) then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -67,12 +67,14 @@ end
 function removeData(path, data)
 	if fs.exists(path) then
 		local content = read(path)
-		local i, j = content and content:find(data, 1, true)
-		if i then
-			local newContent = content:sub(1, i-1) .. content:sub(j)
-			write(path, newContent)
-		end
-	end
+		if content then
+			local i, j = content:find(data, 1, true)
+			if i and j then
+				local newContent = content:sub(1, i-1) .. content:sub(j)
+				write(path, newContent)
+			end -- if i j
+		end -- if content
+	end -- if exists
 end
 
 function trimLuaExtFile(file)
