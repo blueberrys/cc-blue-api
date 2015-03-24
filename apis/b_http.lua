@@ -9,6 +9,7 @@ b_files
 --[[
 Usage
 
+
 - getData
 Returns data from url or nil if error occured
 
@@ -35,7 +36,7 @@ depend({"b_files"})
 function getData(url)
 	local resp = http.get(url)
 	if not resp then
-		return nil
+		return resp
 	else
 		return resp.readAll()
 	end

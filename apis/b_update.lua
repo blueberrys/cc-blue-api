@@ -33,14 +33,12 @@ function checkUpdate(url, path)
 		b_io.prn("Couldn't fetch " .. url)
 		return false
 	end
-	print("OK1")
 
 	local current = b_files.read(path)
 	if not current then
 		b_io.prn("No local version file found")
 		return true
 	end
-	print("OK2")
 
 	return (current < new)
 end

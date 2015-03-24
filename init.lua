@@ -8,6 +8,9 @@ http://pastebin.com/yy7gqfBQ
 local root = "blue-api"
 local apis = fs.combine(root, "apis")
 
+local versionUrl = "https://raw.githubusercontent.com/blueberrys/cc-blue-api/master/version"
+local versionPath = fs.combine(root, "version")
+
 local function load(path, reset)
 	if reset and _G[path] then
 		os.unloadAPI(path)
@@ -39,7 +42,7 @@ load(fs.combine(apis, "b_api"), true)
 b_api.setRoot(apis)
 
 b_api.load("b_update", true)
-b_update.checkUpdate()
+b_update.checkUpdate(versionUrl, versionPath)
 
 
 --
