@@ -1,20 +1,25 @@
 --[[
-BlueAPI
-March 22, 2015
+BlueAPI initialization
 
-http://pastebin.com/yy7gqfBQ
+Loads b_api and b_files
+Trims lua extensions
+Checks for updates
+Sets "blu" alias for self
+
+Parameters
+noUpdate - Prevents automatic update check
 ]]
 
 local user = "blueberrys"
 local repo = "cc-blue-api"
 local exclFiles = {
 	"README.md",
+	"pastebin",
 }
 
 local root = "blue-api"
+
 local apis = fs.combine(root, "apis")
-local versionUrl = "https://raw.githubusercontent.com/blueberrys/cc-blue-api/master/version"
-local versionPath = fs.combine(root, "version")
 
 local force_reset = true
 
@@ -43,17 +48,34 @@ end
 
 --
 
+local canUpdate = true
+
+local arg = {...}
+for _, a in pairs(arg) do
+	if a == "noUpdate" then
+		canUpdate = false
+	end
+end
+
+--
+
 print("Initializing BlueAPI at " .. root)
 
+-- Load b_files, trim lua
 loadNoLua(fs.combine(apis, "b_files"), force_reset)
 b_files.trimLuaExtDir(root, true)
 
+-- Load b_api
 load(fs.combine(apis, "b_api"), force_reset)
 b_api.setRoot(apis)
 
-b_api.load("b_update", force_reset)
-b_update.gitUpdate(user, repo, "master", root, exclFiles)
+if canUpdate then
+	-- Load b_update, check for updates
+	b_api.load("b_update", force_reset)
+	b_update.gitUpdate(user, repo, "master", root, exclFiles)
+end
 
+-- Load b_startup, set alias
 b_api.load("b_startup", force_reset)
 local alias, run = "blu", fs.combine(root, "init")
 b_startup.addAlias(alias, run)
