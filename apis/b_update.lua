@@ -34,11 +34,7 @@ b_api.depend({"b_files", "b_git", "b_http", "b_io"})
 
 local function defaultCompareFn(new, current)
 	local function num(str)
-		local num = str
-		if type(num) == "string" then
-			num = tonumber(str:gsub("%.", ""))
-		end
-		return num
+		return tonumber(str:gsub("%.", ""))
 	end
 
 	new = num(new)
