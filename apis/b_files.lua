@@ -27,7 +27,7 @@ function write(path, data)
 end
 
 function read(path)
-	if not fs.exist(path) then
+	if not fs.exists(path) then
 		return nil
 	end
 	local f = fs.open(path, "r")

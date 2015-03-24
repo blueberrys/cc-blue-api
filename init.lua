@@ -42,7 +42,7 @@ load(fs.combine(apis, "b_api"), true)
 b_api.setRoot(apis)
 
 b_api.load("b_update", true)
-b_update.checkUpdate(versionUrl, versionPath)
+print(b_update.checkUpdate(versionUrl, versionPath))
 
 
 --
