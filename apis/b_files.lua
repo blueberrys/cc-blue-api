@@ -11,6 +11,9 @@ Writes data to file at path
 - read(path)
 Reads and returns data from file at path
 
+- createAppend(path, data)
+Appends data to file, creates new if needed
+
 - trimLuaExtFile(file)
 Removes .lua extension of a file
 Useful for loading api's
@@ -34,6 +37,16 @@ function read(path)
 	local data = f.readAll()
 	f.close()
 	return data
+end
+
+function createAppend(path, data)
+	if fs.exists(path) then
+		local f = fs.open(path, "a")
+		f.write(data)
+		f.close()
+	else
+		write(path, data)
+	end
 end
 
 function trimLuaExtFile(file)

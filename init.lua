@@ -47,10 +47,14 @@ print("Initializing BlueAPI at " .. root)
 
 loadNoLua(fs.combine(apis, "b_files"), force_reset)
 b_files.trimLuaExtDir(root, true)
-shell.setAlias("blu", fs.combine(root, "init"))
 
 load(fs.combine(apis, "b_api"), force_reset)
 b_api.setRoot(apis)
 
 b_api.load("b_update", force_reset)
 b_update.gitUpdate(user, repo, "master", root, exclFiles)
+
+b_api.load("b_startup", force_reset)
+local alias, run = "blu", fs.combine(root, "init")
+b_startup.addAlias(alias, run)
+shell.setAlias(alias, run)
