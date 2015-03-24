@@ -36,8 +36,15 @@ local function defaultCompareFn(new, current)
 	local function num(str)
 		return tonumber(str:gsub(".", ""))
 	end
+	
+	print(new, " ", current)
+	io.read()
+	
 	new = num(new)
 	current = num(current)
+
+	print(new, " ", current)
+	io.read()
 	
 	return (new > current)
 end
