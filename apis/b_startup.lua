@@ -33,11 +33,11 @@ function addStartup(data)
 		return false
 	end
 	
-	b_files.createAppend("startup", "\n\n" .. data)
+	b_files.createAppend("startup", data)
 	return true
 end
 
 function addAlias(alias, path)
 	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
-	addStartup( cmd)
+	addStartup("\n\n" ..  cmd)
 end
