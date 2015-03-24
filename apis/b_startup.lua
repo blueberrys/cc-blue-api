@@ -46,10 +46,10 @@ end
 
 function addAlias(alias, path)
 	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
-	addStartup("\n\n" ..  cmd)
+	addStartup("\n" ..  cmd)
 end
 
 function removeAlias(alias, path)
 	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
-	removeStartup(cmd)
+	removeStartup("\n" ..  cmd)
 end
