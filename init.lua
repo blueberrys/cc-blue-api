@@ -21,6 +21,8 @@ local root = "blue-api"
 
 local apis = fs.combine(root, "apis")
 
+local alias, run = "blu", fs.combine(root, "init")
+
 local force_reset = true
 
 --
@@ -77,6 +79,5 @@ end
 
 -- Load b_startup, set alias
 b_api.load("b_startup", force_reset)
-local alias, run = "blu", fs.combine(root, "init")
 b_startup.addAlias(alias, run)
 shell.setAlias(alias, run)
