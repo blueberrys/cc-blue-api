@@ -11,7 +11,9 @@ b_files
 Usage
 
 - checkUpdate(url, path)
-Returns true if update is available
+Returns: should_update, new, current
+should_update is true if new is greater than current, or current unavailable
+current is not returned if unavailable
 
 ]]
 
@@ -34,8 +36,8 @@ function checkUpdate(url, path)
 	local current = b_files.read(path)
 	if not current then
 		b_io.prn("No local version file found")
-		return true
+		return true, new
 	end
 
-	return (current < new)
+	return (current < new), new, current
 end

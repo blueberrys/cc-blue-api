@@ -56,13 +56,18 @@ b_api.setRoot(apis)
 
 b_api.load("b_update", force_reset)
 print("Checking for updates")
-if b_update.checkUpdate(versionUrl, versionPath) then
-	print("Update available")
+local should_update, new, current = b_update.checkUpdate(versionUrl, versionPath)
+if should_update then
+	print("Update available!")
+	print("Latest ver: ".. new)
+	if current then print("Current ver: ".. current) end
 	-- TODO: Ask to update
-	
+
 	b_api.load("b_git")
 	b_git.install(user, repo, "master", root, print, exclFiles)
 	shell.run(fs.combine(root, "init.lua"))
+else
+	print("")
 end
 
 --
