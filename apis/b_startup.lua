@@ -29,9 +29,12 @@ b_api.depend({"b_files"})
 
 function addStartup(data)
 	local content = b_files.read("startup")
-	if (not content) or (not content:find(data)) then
-		b_files.createAppend("startup", "\n\n" .. data)
+	if (content and content:find(data, 1, true)) then
+		return false
 	end
+	
+	b_files.createAppend("startup", "\n\n" .. data)
+	return true
 end
 
 function addAlias(alias, path)
