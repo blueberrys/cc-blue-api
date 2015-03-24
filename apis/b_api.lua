@@ -54,9 +54,10 @@ function loadBlue()
 end
 
 function depend(apis)
-	for _, d in pairs(apis) do
-		if not _G[d] then
-			load(d)
+	for _, a in pairs(apis) do
+		print("Loading " .. a)
+		if not _G[a] then
+			load(a)
 		end
 	end
 end
