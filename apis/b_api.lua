@@ -47,6 +47,10 @@ function load(module, reset)
 	return os.loadAPI(path)
 end
 
+function unload(module)
+	return os.unloadAPI(module)
+end
+
 function loadBlue()
 	for _, api in pairs(fs.list(root)) do
 		load(api, true)

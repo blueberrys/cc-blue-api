@@ -1,7 +1,6 @@
 --[[
 Updater
 
-
 Dependencies:
 b_io
 b_http
@@ -11,10 +10,8 @@ b_files
 --[[
 Usage
 
-
 - checkUpdate(url, path)
 Returns true if update is available
-
 
 ]]
 
