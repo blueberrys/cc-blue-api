@@ -34,17 +34,16 @@ b_api.depend({"b_files", "b_git", "b_http", "b_io"})
 
 local function defaultCompareFn(new, current)
 	local function num(str)
-		local num = str
 		if type(num) == "string" then
-			num = tonumber(str:gsub("%.", ""))
+			-- remove all dots
+			str = str:gsub("%.", "")
+			return tonumber(str)
+		else
+			return str
 		end
-		return num
 	end
 
-	new = num(new)
-	current = num(current)
-
-	return (new > current)
+	return (num(new) > num(current))
 end
 
 function checkUpdate(url, path, compareFn)
