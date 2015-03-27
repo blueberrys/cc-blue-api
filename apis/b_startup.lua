@@ -34,15 +34,17 @@ b_api.depend({"b_files"})
 
 --
 
+local line_feed = "\r\n"
+
 function addStartup(data)
 	if not b_files.hasData("startup", data) then
-		b_files.createAppend("startup", "\n\r" .. data)
+		b_files.createAppend("startup", line_feed .. data)
 	end
 end
 
 function removeStartup(data)
-	if b_files.hasData("startup", "\n\r" .. data) then
-		data = "\n\r" .. data
+	if b_files.hasData("startup", line_feed .. data) then
+		data = line_feed .. data
 	end
 	b_files.removeData("startup", data)
 end
