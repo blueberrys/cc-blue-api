@@ -36,20 +36,23 @@ b_api.depend({"b_files"})
 
 function addStartup(data)
 	if not b_files.hasData("startup", data) then
-		b_files.createAppend("startup", data)
+		b_files.createAppend("startup", "\n\r" .. data)
 	end
 end
 
 function removeStartup(data)
+	if b_files.hasData("startup", "\n\r" .. data) then
+		data = "\n\r" .. data
+	end
 	b_files.removeData("startup", data)
 end
 
 function addAlias(alias, path)
 	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
-	addStartup("\n" ..  cmd)
+	addStartup(cmd)
 end
 
 function removeAlias(alias, path)
 	local cmd = "shell.setAlias(\"" .. alias .. "\",\"" .. path .. "\")"
-	removeStartup("\n" ..  cmd)
+	removeStartup(cmd)
 end
