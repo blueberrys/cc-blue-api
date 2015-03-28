@@ -34,6 +34,10 @@ function setPrintFn(fn)
 	print_fn = fn
 end
 
+function getPrintFn()
+	return print_fn
+end
+
 --
 
 function argToStr(sep, ...)

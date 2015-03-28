@@ -14,7 +14,7 @@ Usage
 Returns: should_update, new, current
 should_update is compareFn(new, current), or false if http fail, or true if local fail
 new and/or current are not returned if unavailable
-If compareFn is not provided, the default is used (sufficient for numbered versions)
+If compareFn is not provided, the default is used (dotted numbered versions)
 
 - gitUpdate(username, repo, branch, path, exclFiles)
 Updates a complete repository from GitHub
@@ -32,18 +32,39 @@ b_api.depend({"b_files", "b_git", "b_http", "b_io"})
 
 --
 
+-- Checks for dotted versions
 local function defaultCompareFn(new, current)
-	local function num(str)
-		if type(num) == "string" then
-			-- remove all dots
-			str = str:gsub("%.", "")
-			return tonumber(str)
-		else
-			return str
-		end
-	end
+	local newV, curV
+	local newFinal, curFinal = false, false
 
-	return (num(new) > num(current))
+	repeat
+		local newI, newJ = new:find(".", 1, true)
+		if newI then
+			newV = new:sub(1, newI-1)
+			new = new:sub(newJ+1)
+		else
+			newV = newFinal and 0 or new
+			newFinal = true
+		end
+
+		local curI, curJ = current:find(".", 1, true)
+		if curI then
+			curV = current:sub(1, curI-1)
+			current = current:sub(curJ+1)
+		else
+			curV = curFinal and 0 or current
+			curFinal = true
+		end
+
+		curV = tonumber(curV)
+		newV = tonumber(newV)
+
+		if (newV ~= curV) then
+			break
+		end
+	until (newFinal and curFinal)
+
+	return (newV > curV)
 end
 
 function checkUpdate(url, path, compareFn)
