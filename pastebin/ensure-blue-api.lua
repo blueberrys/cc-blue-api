@@ -1,6 +1,6 @@
 --[[
 Ensure BlueAPI
-Version 1.2
+Version 1.3
 
 Installs BlueAPI and components if needed
 Loads requested components automatically
@@ -29,7 +29,7 @@ local blueApiId = "yy7gqfBQ"
 local blueApiDir = "blue-api"
 local blueApiRun = fs.combine(blueApiDir, "init")
 
-local blueVersionUrl = "https://raw.githubusercontent.com/blueberrys/cc-blue-api/master/version"
+local blueVersionUrl = "https://raw.github.com/blueberrys/cc-blue-api/master/version"
 local blueVersionFile = fs.combine(blueApiDir, "version")
 
 -- For checking updates

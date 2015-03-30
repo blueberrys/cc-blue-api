@@ -86,7 +86,7 @@ function checkUpdate(url, path, compareFn)
 end
 
 function gitUpdate(username, repo, branch, path, exclFiles)
-	local updateUrl = "https://raw.githubusercontent.com/" .. username .. "/" .. repo .. "/" .. branch .. "/version"
+	local updateUrl = "https://raw.github.com/" .. username .. "/" .. repo .. "/" .. branch .. "/version"
 	local updatePath = fs.combine(path, "version")
 
 	b_io.prnt("Checking for updates")
