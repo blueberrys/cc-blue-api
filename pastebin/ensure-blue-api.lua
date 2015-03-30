@@ -1,6 +1,6 @@
 --[[
 Ensure BlueAPI
-Version 1.3
+Version 1.4
 
 Installs BlueAPI and components if needed
 Loads requested components automatically
@@ -76,6 +76,7 @@ end
 local function installBlueApi(params)
 	print("Installing blue-api (by Blueberrys)")
 	shell.run("pastebin run", blueApiId, params)
+	return b_api
 end
 
 -- Installs BlueAPI and components if needed
@@ -118,7 +119,10 @@ local function ensureBlueAPI(apis)
 
 	if should_install then
 		-- Install
-		installBlueApi(params)
+		if not installBlueApi(params) then
+			print("Error installing BlueAPI")
+			return
+		end
 	end
 
 	-- load all
