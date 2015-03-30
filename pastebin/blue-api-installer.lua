@@ -1,6 +1,6 @@
 --[[
 BlueAPI Installer
-Version 1.1
+Version 1.2
 
 Installs BlueAPI
 ]]
@@ -61,12 +61,14 @@ local function install(username, repo, branch, files, path)
 		-- https://raw.githubusercontent.com/blueberrys/cc-blue-api/master/init.lua
 		local url = "https://raw.githubusercontent.com/" .. username .. "/" .. repo .. "/" .. branch .. "/" .. file
 		local resp = http.get(url)
-		local data = resp and resp.readAll()
-		
-		if data and data ~= "Not Found" then
-			local f = fs.open(fs.combine(path, file), "w")
-			f.write(data)
-			f.close()
+		if resp then
+			local data = resp.readAll()
+
+			if data and data ~= "Not Found" then
+				local f = fs.open(fs.combine(path, file), "w")
+				f.write(data)
+				f.close()
+			end
 		end
 	end
 end

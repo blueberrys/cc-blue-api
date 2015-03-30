@@ -1,6 +1,6 @@
 --[[
 Ensure BlueAPI
-Version 1.1
+Version 1.2
 
 Installs BlueAPI and components if needed
 Loads requested components automatically
@@ -95,9 +95,9 @@ local function ensureBlueAPI(apis)
 
 	local should_install = false
 
-	if params=="" and checkNewVersion() then
+	if params=="" then
 		-- No params, new version available
-		should_install = true
+		should_install = checkNewVersion()
 	elseif not minimalCheck() then
 		-- Essentials are missing
 		should_install = true
