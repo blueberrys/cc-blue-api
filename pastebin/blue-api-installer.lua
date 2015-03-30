@@ -69,6 +69,7 @@ local function install(username, repo, branch, files, path)
 				f.write(data)
 				f.close()
 			end
+			resp.close()
 		end
 	end
 end

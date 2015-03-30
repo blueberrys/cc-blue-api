@@ -26,11 +26,12 @@ b_api.depend({"b_files"})
 
 function getData(url)
 	local resp = http.get(url)
-	if not resp then
-		return resp
-	else
-		return resp.readAll()
+	local data
+	if resp then
+		data = resp.readAll()
 	end
+	resp.close()
+	return data
 end
 
 function getDownload(url, file)
