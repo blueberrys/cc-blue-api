@@ -1,6 +1,6 @@
 --[[
 BlueAPI Installer
-Version 1.2
+Version 1.4
 
 Installs BlueAPI
 ]]
@@ -55,11 +55,14 @@ local function install(username, repo, branch, files, path)
 	branch = branch or "master"
 	path = path or ""
 
+	local success = true
+
 	print("Downloading files from github")
 	for _, file in pairs(files) do
 		print("Downloading " .. file)
+		-- https://raw.github.com/blueberrys/cc-blue-api/master/init.lua
 		-- https://raw.githubusercontent.com/blueberrys/cc-blue-api/master/init.lua
-		local url = "https://raw.githubusercontent.com/" .. username .. "/" .. repo .. "/" .. branch .. "/" .. file
+		local url = "https://raw.github.com/" .. username .. "/" .. repo .. "/" .. branch .. "/" .. file
 		local resp = http.get(url)
 		if resp then
 			local data = resp.readAll()
@@ -70,8 +73,12 @@ local function install(username, repo, branch, files, path)
 				f.close()
 			end
 			resp.close()
+		else
+			success = false
 		end
 	end
+
+	return success
 end
 
 local function addFiles(filesToAdd)
@@ -97,7 +104,11 @@ if custom then
 end
 
 -- Install blue api
-install(user, repo, "master", minFiles, dir)
+if not install(user, repo, "master", minFiles, dir) then
+	print("Unable to download files")
+	print("Please enable http and allow github.com and githubusercontent.com")
+	return
+end
 
 -- Init blue api
 shell.run(run)
