@@ -38,16 +38,20 @@ local maxAttempt = 3
 function install(username, repo, branch, path, exclude)
 	branch = branch or "master"
 	path = path or ""
-	
+
 	local function should_exclude(node)
 		for _, ePath in pairs(exclude) do
-			if node.type == "tree" then
-				if ePath == node.path then
-					return true
-				end
-			elseif node.type == "blob" then
-				local eLen = ePath:len()
-				if (ePath == node.path:sub(1, eLen)) then
+			-- file or folder
+			if ePath == node.path then
+				return true
+			end
+
+			-- file within a folder
+			if node.type == "blob" and node.path:find("/", 1, true) then
+				-- ePath ending with /
+				local ePathDir = (ePath:find("/", -1, true) and ePath) or (ePath .. "/")
+				local eLen = ePathDir:len()
+				if (ePathDir == node.path:sub(1, eLen)) then
 					return true
 				end
 			end
@@ -63,7 +67,7 @@ function install(username, repo, branch, path, exclude)
 	end
 
 	b_io.prnt("Downloading files from GitHub")
-	
+
 	b_io.prnt("Fetching file list")
 	-- https://api.github.com/repos/blueberrys/cc-blue-api/git/trees/master?recursive=1
 	local fileList = "https://api.github.com/repos/" .. username .. "/" .. repo .. "/git/trees/" .. branch .. "?recursive=1"
