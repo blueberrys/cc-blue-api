@@ -1,7 +1,7 @@
 # cc-blue-api
 Boilerplate ComputerCraft API
 
-### Features:
+#### Features:
 - Internal moduler dependencies
 - API's
  - File API
@@ -12,17 +12,17 @@ Boilerplate ComputerCraft API
  - Update API
 - Automatic updates
 
-### Planned:
+#### Planned:
 - API's
  - Drives API
  - Widgets API
  - Turtle API
 
 
-## Install methods:
+### Install methods:
 
 
-### [BlueAPI Installer] (http://pastebin.com/yy7gqfBQ)
+#### [BlueAPI Installer] (http://pastebin.com/yy7gqfBQ)
 
 Usage:
 pastebin run yy7gqfBQ [files..]
@@ -32,7 +32,7 @@ If blank, all files will be downloaded.
 Custom installation is currently slower because it uses synchronous http. Only use it if you need a few files.
 
 
-### [Ensure BlueAPI] (http://pastebin.com/xQfeXVgj)
+#### [Ensure BlueAPI] (http://pastebin.com/xQfeXVgj)
 
 Usage:
 pastebin run xQfeXVgj [apis..]
