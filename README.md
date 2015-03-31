@@ -1,6 +1,9 @@
 # cc-blue-api
 Boilerplate ComputerCraft API
 
+Warning: This project is currently under development and is probe to undocumented breaking changes until officially released.
+
+
 #### Features:
 - Internal moduler dependencies
 - API's
