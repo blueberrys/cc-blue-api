@@ -13,6 +13,9 @@ Use cautiously. Will affect all scripts using the api
 Loads the module from the current root directory
 If reset is true, api will be forced to re-load
 
+- unload(module)
+Unloads the module
+
 - loadBlue()
 Loads all api's needed for blue-api
 You can safely use setRoot after calling this
