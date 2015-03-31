@@ -20,7 +20,7 @@ repo		- GitHub repo name
 branch		- Github branch (default "master")
 path		- Local install path (default "/")
 exclude		- Table containing the relative path of folders/files to exclude
-eg: install("blueberrys", "cc-blue-api", "master", "blue-api", print, {"README.md"})
+eg: install("blueberrys", "cc-blue-api", "master", "blue-api", {"README.md"})
 
 ]]
 
