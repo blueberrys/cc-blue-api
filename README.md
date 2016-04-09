@@ -41,6 +41,6 @@ Usage:
 pastebin run xQfeXVgj [apis..]
 
 Apis params should be names of additional api's to load.  
-If any are not found, they will be downloaded.  
-If none are provided, full api will be downloaded depending on the version, but only essentials will be loaded.  
-Essential api's are loaded regardless, but can be included.  
+If any of them are not found locally, they will be downloaded.  
+If no parameters are provided, full api will be downloaded depending on the version, but only essentials will be loaded.  
+Essential api's are loaded regardless, but can be included in the params.  
