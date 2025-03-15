@@ -45,6 +45,7 @@ end
 --
 
 function argToStr(sep, ...)
+	local arg={...}
 	local str = ""
 	for _, a in pairs(arg) do
 		str = str .. sep .. a
